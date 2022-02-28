@@ -17,7 +17,7 @@ const Navbar = () => {
         </Left>
         <Center>
           <Logo>
-            vl
+            VL.
           </Logo>
         </Center>
         <Right>

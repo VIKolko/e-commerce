@@ -1,7 +1,7 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@mui/icons-material';
 import React, { useState } from 'react'
 import styled from 'styled-components';
-
+import {mobile} from '../responsive'
 import { sliderItems } from '../data';
 
 const Slider = () => {
@@ -49,6 +49,7 @@ const Container = styled.div`
     display: flex;
     position: relative;
     overflow: hidden;
+    ${mobile({display:"none"})}
 `;
 const Arrow = styled.div`
     width: 50px;

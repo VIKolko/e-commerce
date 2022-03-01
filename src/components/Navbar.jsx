@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
-
+import {mobile} from '../responsive'
 
 const Navbar = () => {
   return (
@@ -11,7 +11,7 @@ const Navbar = () => {
         <Left>
           <Language>EN</Language>
           <SearchContainer>
-            <Input type="text" />
+            <Input type="text" placeholder="Search"/>
             <Search style={{color:'grey',fontSize:'16px'}} />
           </SearchContainer>
         </Left>
@@ -45,6 +45,8 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  ${mobile({padding:'10px 5px'})}
+
 `;
 const Left = styled.div`
   flex: 1;
@@ -64,10 +66,13 @@ const SearchContainer = styled.div`
 `
 const Input = styled.input`
   border: none;
+  ${mobile({width:'50px'})}
 `
 
 const Logo = styled.h1`
   font-weight: bold;
+  ${mobile({fontSize:'24px'})}
+
 `
 
 const Center = styled.div`
@@ -80,9 +85,13 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  ${mobile({flex:"2",justifyContent:'center'})}
+
 `;
 const MenuItem = styled.div`
   font-size: 14px ;
   cursor: pointer;
   margin-left: 25px;
+  ${mobile({fontSize:'14px', marginLeft:"10px"})}
+
 `

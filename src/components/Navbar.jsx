@@ -1,38 +1,43 @@
-import React from 'react'
-import styled from 'styled-components';
-import { Search, ShoppingCartOutlined } from '@mui/icons-material';
-import { Badge } from '@mui/material';
-import {mobile} from '../responsive'
+import React from "react";
+import styled from "styled-components";
+import { Search, ShoppingCartOutlined } from "@mui/icons-material";
+import { Badge } from "@mui/material";
+import { mobile } from "../responsive";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
+
+  const quantity = useSelector(state=>state.cart.quantity)
+
   return (
     <Container>
       <Wrapper>
         <Left>
           <Language>EN</Language>
           <SearchContainer>
-            <Input type="text" placeholder="Search"/>
-            <Search style={{color:'grey',fontSize:'16px'}} />
+            <Input type="text" placeholder="Search" />
+            <Search style={{ color: "grey", fontSize: "16px" }} />
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>
-            VL.
-          </Logo>
+          <Logo>VL.</Logo>
         </Center>
         <Right>
           <MenuItem>REGISTER</MenuItem>
           <MenuItem>SIGN IN</MenuItem>
+          <Link to={'/cart'}>
           <MenuItem>
-          <Badge badgeContent={4} color='primary'>
-          <ShoppingCartOutlined />
-          </Badge>
-            </MenuItem>
+            <Badge badgeContent={quantity} color="primary">
+              <ShoppingCartOutlined />
+            </Badge>
+          </MenuItem>
+          </Link>
         </Right>
       </Wrapper>
     </Container>
-  )
-}
+  );
+};
 
 export default Navbar;
 
@@ -41,12 +46,11 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding:10px 20px ;
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  ${mobile({padding:'10px 5px'})}
-
+  ${mobile({ padding: "10px 5px" })}
 `;
 const Left = styled.div`
   flex: 1;
@@ -56,24 +60,23 @@ const Left = styled.div`
 const Language = styled.span`
   font-size: 14px;
   cursor: pointer;
-`
+`;
 const SearchContainer = styled.div`
   border: 1px solid lightgrey;
   display: flex;
   align-items: center;
   margin-left: 25px;
   padding: 5px;
-`
+`;
 const Input = styled.input`
   border: none;
-  ${mobile({width:'50px'})}
-`
+  ${mobile({ width: "50px" })}
+`;
 
 const Logo = styled.h1`
   font-weight: bold;
-  ${mobile({fontSize:'24px'})}
-
-`
+  ${mobile({ fontSize: "24px" })}
+`;
 
 const Center = styled.div`
   flex: 1;
@@ -85,13 +88,11 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  ${mobile({flex:"2",justifyContent:'center'})}
-
+  ${mobile({ flex: "2", justifyContent: "center" })}
 `;
 const MenuItem = styled.div`
-  font-size: 14px ;
+  font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
-  ${mobile({fontSize:'14px', marginLeft:"10px"})}
-
-`
+  ${mobile({ fontSize: "14px", marginLeft: "10px" })}
+`;

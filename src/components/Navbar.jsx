@@ -1,14 +1,24 @@
 import React from "react";
 import styled from "styled-components";
-import { Search, ShoppingCartOutlined } from "@mui/icons-material";
+import {
+  Logout,
+  Person,
+  Search,
+  ShoppingCartOutlined,
+} from "@mui/icons-material";
 import { Badge } from "@mui/material";
 import { mobile } from "../responsive";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { logOut } from "../redux/userSlice";
 
 const Navbar = () => {
-
-  const quantity = useSelector(state=>state.cart.quantity)
+  const dispatch = useDispatch();
+  const quantity = useSelector((state) => state.cart.quantity);
+  const user = useSelector((state) => state.user.currentUser);
+  const handleLogOut = () => {
+    dispatch(logOut());
+  };
 
   return (
     <Container>
@@ -24,14 +34,30 @@ const Navbar = () => {
           <Logo>VL.</Logo>
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
-          <Link to={'/cart'}>
-          <MenuItem>
-            <Badge badgeContent={quantity} color="primary">
-              <ShoppingCartOutlined />
-            </Badge>
-          </MenuItem>
+          {!user ? (
+            <>
+              <Link to="/register">
+                <MenuItem>REGISTER</MenuItem>
+              </Link>
+              <Link to="/login">
+                <MenuItem>SIGN IN</MenuItem>
+              </Link>
+            </>
+          ) : (
+            <>
+              <UserText>welcome {user?.username}</UserText>
+              <Person />
+              <MenuItem>
+                <Logout onClick={handleLogOut} />
+              </MenuItem>
+            </>
+          )}
+          <Link to={"/cart"}>
+            <MenuItem>
+              <Badge badgeContent={quantity} color="primary">
+                <ShoppingCartOutlined />
+              </Badge>
+            </MenuItem>
           </Link>
         </Right>
       </Wrapper>
@@ -95,4 +121,11 @@ const MenuItem = styled.div`
   cursor: pointer;
   margin-left: 25px;
   ${mobile({ fontSize: "14px", marginLeft: "10px" })}
+  &:hover{
+    color: red;
+  }
+`;
+const UserText = styled.h4`
+  font-weight: bold;
+  ${mobile({ fontSize: "18px" })}
 `;

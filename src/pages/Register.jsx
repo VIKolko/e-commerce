@@ -47,6 +47,7 @@ const Wrapper = styled.div`
   padding: 20px;
   background-color: white;
   ${mobile({width:'75%'})}
+  border-radius: 10px;
 
 `;
 

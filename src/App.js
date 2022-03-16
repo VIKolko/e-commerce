@@ -7,10 +7,10 @@ import ProductList from "./pages/ProductList";
 import Register from "./pages/Register";
 import Success from "./pages/Success";
 import { Route, Routes, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function App() {
-  const user = false;
-
+  const user = useSelector(state=>state.user.currentUser);
   return (
     <div className="App">
       <Routes>

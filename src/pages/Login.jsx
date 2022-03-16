@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/apiCalls";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [username, setUserName] = useState("");
@@ -12,7 +13,7 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    login(dispatch,{username,password});
+    login(dispatch, { username, password });
   };
   return (
     <Container>
@@ -25,13 +26,17 @@ const Login = () => {
           />
           <Input
             placeholder="password"
-            type='password'
+            type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button onClick={handleLogin} disabled={isFetching}>LOGIN</Button>
+          <Button onClick={handleLogin} disabled={isFetching}>
+            LOGIN
+          </Button>
           {error && <Error>Something went wrong...</Error>}
-          <Link>Forgot password?</Link>
-          <Link>Create account</Link>
+          <LinkText>Forgot password?</LinkText>
+          <Link  to="/register">
+            <LinkText>Create account</LinkText>
+          </Link>
         </Form>
       </Wrapper>
     </Container>
@@ -49,6 +54,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
 `;
 
 const Wrapper = styled.div`
@@ -84,9 +90,14 @@ const Button = styled.button`
   background-color: teal;
   color: white;
   cursor: pointer;
+  margin-bottom: 10px;
+  &:disabled {
+    color: green;
+    cursor: not-allowed;
+  }
 `;
 
-const Link = styled.a`
+const LinkText = styled.p`
   margin: 5px 0;
   font-size: 12px;
   text-decoration: underline;

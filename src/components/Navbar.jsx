@@ -31,7 +31,11 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
+          <Link to='/'
+          style={{'textDecoration':'none',
+          'color':'black'}}>
           <Logo>VL.</Logo>
+          </Link>
         </Center>
         <Right>
           {!user ? (
@@ -52,11 +56,11 @@ const Navbar = () => {
               </MenuItem>
             </>
           )}
-          <Link to={"/cart"}>
+          <Link to={quantity&&"/cart"}>
             <MenuItem>
-              <Badge badgeContent={quantity} color="primary">
+              {<Badge badgeContent={quantity} color="primary">
                 <ShoppingCartOutlined />
-              </Badge>
+              </Badge>}
             </MenuItem>
           </Link>
         </Right>

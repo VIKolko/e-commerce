@@ -9,7 +9,6 @@ const Products = ({ cat, filter, sort }) => {
 
   useEffect(() => {
     const getProducts = async () => {
-      // const data = JSON.stringify({});
       const config = {
         url: "http://localhost:5005/api/products",
         headers: {
@@ -17,7 +16,6 @@ const Products = ({ cat, filter, sort }) => {
             "",
           "Content-Type": "application/json",
         },
-        // data : data
       };
       try {
         const res = await axios(config);

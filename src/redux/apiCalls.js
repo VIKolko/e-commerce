@@ -10,3 +10,11 @@ export const login = async (dispatch, user)=>{
         dispatch(loginFailure(err))
     }
 }
+
+export const register = async (dispatch, user)=>{
+        try{
+            
+        }catch(e){
+            console.log(e)
+        }
+}

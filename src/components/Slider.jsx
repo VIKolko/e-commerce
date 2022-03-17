@@ -45,6 +45,7 @@ export default Slider;
 
 const Container = styled.div`
     width: 100%;
+    min-width: 100vw;
     height: 100vh;
     display: flex;
     position: relative;
@@ -54,7 +55,7 @@ const Container = styled.div`
 const Arrow = styled.div`
     width: 50px;
     height: 50px;
-    background-color: #fff7f7;
+    background-color: #ffd0d0;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -68,6 +69,11 @@ const Arrow = styled.div`
     cursor: pointer;
     opacity: 0.5;
     z-index: 2;
+    ${mobile({
+        
+    })}
+
+
 `
 const Wrapper = styled.div`
     height: 100%;

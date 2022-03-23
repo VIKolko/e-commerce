@@ -1,42 +1,46 @@
-import { Add, Remove } from "@mui/icons-material";
+import { Add, Remove, Delete } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import StripeCheckout from "react-stripe-checkout";
 import { userRequest } from "../requestMethod";
-import {useNavigate } from 'react-router'
+import { useNavigate } from "react-router";
+import { deleteProduct } from "../redux/cartSlice";
+import { Link } from "react-router-dom";
 
 const KEY = process.env.REACT_APP_STRIPE;
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
-  const navigate = useNavigate ()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const onToken = (token) =>{
-    setStripeToken(token)
+  const onToken = (token) => {
+    setStripeToken(token);
   };
 
-useEffect(()=>{
-  const makeRequest = async ()=>{
-    try{
-      const res = await userRequest.post("/checkout/payment",{
-        tokenId:stripeToken.id,
-        amount:cart.total*100,
-      });
-      navigate('/success',
-      {stripeData:res.data,
-        products:cart})      
-    }catch(err){
-      console.log(err)
-    }
-  };
-  stripeToken && makeRequest();
-},[stripeToken, cart, navigate])
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: cart.total * 100,
+        });
+        navigate("/success", { stripeData: res.data, products: cart });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken, cart, navigate]);
+
+  const handleDelete = (id) => dispatch(deleteProduct(id));
+
   return (
     <Container>
       <Navbar />
@@ -44,7 +48,9 @@ useEffect(()=>{
       <Wrapper>
         <Title>Your Bag</Title>
         <Top>
-          <TopButton>Continue shopping</TopButton>
+          <Link to='/'>
+            <TopButton>Continue shopping</TopButton>
+          </Link>
           <TopTexts>
             <TopText>Shopping Bag(2)</TopText>
             <TopText>Wishlist (0)</TopText>
@@ -53,8 +59,8 @@ useEffect(()=>{
         </Top>
         <Bottom>
           <Info>
-            {cart.products.map((product) => (
-              <Product key={product._id}>
+            {cart.products.map((product, id) => (
+              <Product key={product._id + id} id={product._id + id}>
                 <ProductDetail>
                   <Image src={product.img} />
                   <Details>
@@ -74,10 +80,17 @@ useEffect(()=>{
                   </Details>
                   <PriceDetail>
                     <ProductAmountContainer>
-                      <Add />
+                      <Icon>
+                        <Add />
+                      </Icon>
                       <ProductAmount>{product.quantity}</ProductAmount>
-                      <Remove />
+                      <Icon>
+                        <Remove />
+                      </Icon>
                     </ProductAmountContainer>
+                    <Icon>
+                      <Delete onClick={() => handleDelete(id)} />
+                    </Icon>
                     <ProductPrice>
                       $ {product.price * product.quantity}
                     </ProductPrice>
@@ -111,7 +124,7 @@ useEffect(()=>{
               billingAddress
               shippingAddress
               description={`total payment: ${cart.total}`}
-              amount={cart.title*100}
+              amount={cart.title * 100}
               token={onToken}
               stripeKey={KEY}
             >
@@ -263,4 +276,20 @@ const SummaryButton = styled.button`
   color: white;
   font-weight: 800;
   cursor: pointer;
+`;
+const Icon = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  transition: all ease 0.5s;
+
+  &:hover {
+    background-color: #e9f5f5;
+    transform: scale(1.1);
+  }
 `;

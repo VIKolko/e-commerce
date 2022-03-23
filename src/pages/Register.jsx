@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { useDispatch } from "react-redux";
+import { register } from "../redux/apiCalls";
 
 const initialRegisterUser = {
-  fullName: {
+  fullname: {
     firstName: "",
     lastName: "",
   },
-  userName: "",
+  username: "",
   email: "",
   password: "",
 };
@@ -15,12 +17,14 @@ const initialRegisterUser = {
 const Register = () => {
   const [account, setAccount] = useState(initialRegisterUser);
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [passCheck, setPassCheck] = useState(true);
+  const dispatch = useDispatch();
 
   const handleInput = (e) => {
     if (e.target.name === "firstName" || e.target.name === "lastName") {
       setAccount((prev) => ({
         ...prev,
-        fullName: { ...prev.fullName, [e.target.name]: e.target.value },
+        fullname: { ...prev.fullname, [e.target.name]: e.target.value },
       }));
     } else if (e.target.name === "passwordConfirm") {
       setPasswordConfirm(e.target.value);
@@ -29,12 +33,13 @@ const Register = () => {
     }
   };
 
-
-  const handleFormSubmit = (e) =>{
-    console.log(account);
-    setAccount(initialRegisterUser)
-    e.preventDefault()
-  }
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const { username, password, email, fullname} = account;
+    account.password === passwordConfirm
+      ? register(dispatch, { username, email, password, fullname})
+      : setPassCheck(false);
+  };
 
   return (
     <Container>
@@ -46,29 +51,27 @@ const Register = () => {
             placeholder="name"
             minLength="1"
             maxLength="30"
-            defaultValue={account.fullName.firstName}
-            required
-            />
+            defaultValue={account.fullname.firstName}
+          />
           <Input
             name="lastName"
             placeholder="last name"
             minLength="1"
             maxLength="30"
-            defaultValue={account.fullName.lastName}
-            required
+            defaultValue={account.fullname.lastName}
           />
           <Input
-            name="userName"
-            placeholder="user name"
+            name="username"
+            placeholder="* user name"
             required
             minLength="6"
             maxLength="20"
-            defaultValue={account.userName}
+            defaultValue={account.username}
           />
           <Input
             name="email"
             type="email"
-            placeholder="email"
+            placeholder="* email"
             minLength="6"
             maxLength="30"
             defaultValue={account.email}
@@ -77,7 +80,7 @@ const Register = () => {
           <Input
             name="password"
             type="password"
-            placeholder="password"
+            placeholder="* password"
             required
             minLength="6"
             maxLength="20"
@@ -86,15 +89,18 @@ const Register = () => {
           <Input
             type="password"
             name="passwordConfirm"
-            placeholder="confirm password"
+            placeholder="* confirm password"
             minLength="6"
             maxLength="20"
             defaultValue={passwordConfirm}
             required
           />
+          {!passCheck && (
+            <Warning>*password should be equal in both fields'</Warning>
+          )}
           <Agreements>
-            By creatin an account, I consent to the processing of my person data
-            in accordance with <b>PRIVACY POLICY</b>
+            By creating an account, I consent to the processing of my person
+            data in accordance with <b>PRIVACY POLICY</b>
           </Agreements>
           <Button type="submit">Create</Button>
         </Form>
@@ -153,4 +159,9 @@ const Button = styled.button`
   background-color: teal;
   color: white;
   cursor: pointer;
+`;
+const Warning = styled.span`
+  font-size: 20px;
+  margin: 20px 0;
+  color: red;
 `;

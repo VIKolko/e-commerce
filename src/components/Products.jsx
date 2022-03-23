@@ -2,29 +2,17 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Product from "./Product";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { publicRequest } from "../requestMethod";
+import { getProducts } from "../redux/apiCalls";
 
 const Products = ({ cat, filter, sort }) => {
-  const [products, setProducts] = useState([]);
   const [filteredProducts, setfilteredProducts] = useState([]);
+  const dispatch = useDispatch();
+  const products = useSelector(state=>state.products.products)
 
   useEffect(() => {
-    const getProducts = async () => {
-      const config = {
-        url: "http://localhost:5005/api/products",
-        headers: {
-          token:
-            "",
-          "Content-Type": "application/json",
-        },
-      };
-      try {
-        const res = await axios(config);
-        setProducts(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getProducts();
+    getProducts(dispatch);
   }, [cat]);
 
   useEffect(() => {
@@ -38,7 +26,7 @@ const Products = ({ cat, filter, sort }) => {
       );
   }, [products, cat, filter]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (sort === "newest") {
       setfilteredProducts((prev) =>
         [...prev].sort((a, b) => a.createdAt - b.createdAt)
@@ -57,8 +45,8 @@ const Products = ({ cat, filter, sort }) => {
   return (
     <Container>
       {cat
-        ? filteredProducts.map((item) => <Product item={item} key={item._id} />)
-        : products.map((item) => <Product item={item} key={item._id} />)}
+        ? filteredProducts.map((item,id) => <Product item={item} key={item._id+id} />)
+        : products?.map((item,id) => <Product item={item} key={item._id+id} />)}
     </Container>
   );
 };

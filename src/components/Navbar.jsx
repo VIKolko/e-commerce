@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   Logout,
@@ -6,29 +6,48 @@ import {
   Search,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
-import { Badge } from "@mui/material";
+import { Badge, Button } from "@mui/material";
 import { mobile } from "../responsive";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logOut } from "../redux/userSlice";
+import { cartLogout } from "../redux/cartSlice";
 
 const Navbar = () => {
+  const [search,setSearch] = useState()
+
   const dispatch = useDispatch();
   const quantity = useSelector((state) => state.cart.quantity);
   const user = useSelector((state) => state.user.currentUser);
   const handleLogOut = () => {
     dispatch(logOut());
+    dispatch(cartLogout());
   };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value)
+  }
+
+
+  // useEffect(()=>{
+  //   search&&setTimeout(()=>console.log(search),2000)
+  // }
+  //   ,[search]
+  // )
+
+
+
 
   return (
     <Container>
       <Wrapper>
         <Left>
           <Language>EN</Language>
-          <SearchContainer>
-            <Input type="text" placeholder="Search" />
+          {/* <SearchContainer>
+            <Input onChange={handleChange} type="text" placeholder="Search" />
             <Search style={{ color: "grey", fontSize: "16px" }} />
-          </SearchContainer>
+          </SearchContainer> */}
         </Left>
         <Center>
           <Link to='/'

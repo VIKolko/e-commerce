@@ -5,6 +5,7 @@ const userSlice = createSlice({
     name: "user",
     initialState: {
       currentUser: null,
+      wishList:null,
       isFetching: false,
       error: false,
     },
@@ -16,6 +17,7 @@ const userSlice = createSlice({
       loginSuccess: (state, action) => {
         state.isFetching = false;
         state.currentUser = action.payload;
+        state.wishList = true;
         state.error = false;
       },
       loginFailure: (state) => {
@@ -26,6 +28,8 @@ const userSlice = createSlice({
         state.isFetching = false;
         state.error = false;
         state.currentUser = null;
+        state.wishList = true;
+        
       },
       signupStart: (state)=>{
         state.isFetching = true;
@@ -39,6 +43,7 @@ const userSlice = createSlice({
       signupSuccess:(state,action)=>{
         state.isFetching = false;
         state.currentUser = action.payload;
+        state.wishList = true;
         state.error = false
       },
     },

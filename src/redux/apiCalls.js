@@ -29,11 +29,15 @@ export const register = async (dispatch, user) => {
   }
 };
 
-export const getProducts = async (dispatch) => {
+export const getProducts = async (dispatch,cat) => {
   dispatch(productStart());
   try {
+    if (cat){
+      const res = await publicRequest.get(`/products/?category=${cat}`);
+      dispatch(productSuccess(res.data));
+    }else{
     const res = await publicRequest.get("/products");
-    dispatch(productSuccess(res.data));
+    dispatch(productSuccess(res.data));}
   } catch (e) {
     dispatch(productFailure(e));
   }

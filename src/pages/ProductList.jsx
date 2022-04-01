@@ -7,24 +7,31 @@ import NewsLetter from "../components/NewsLetter";
 import Footer from "../components/Footer";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ProductList = () => {
   const location = useLocation();
   const cat = location.pathname.split("/")[2];
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState("newest");
-
+  const colors  = useSelector(state=>state.products.colors);
+  const sizes  = useSelector(state=>state.products.sizes);
+  const products = useSelector(state=>state.products.products)
   const handleFilters = (e) => {
     const value = e.target.value;
+    const { [e.target.name]: removed, ...other } = filter;
+
     value === "All"
-      ? setFilter({})
+      ? Object.keys(filter).length > 1
+        ? setFilter(other)
+        : setFilter({})
       : setFilter({ ...filter, [e.target.name]: value });
   };
   return (
     <Container>
       <Navbar />
       <Announcement />
-      <Title>{cat}</Title>
+      <Title>{products.length?cat:"we don't have such products"}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
@@ -33,21 +40,14 @@ const ProductList = () => {
               choose color
             </Option>
             <Option>All</Option>
-            <Option>Black</Option>
-            <Option>Red</Option>
-            <Option>Blue</Option>
-            <Option>Yellow</Option>
-            <Option>Green</Option>
+            {colors?.map(el=><Option key={el}>{el.charAt(0).toUpperCase() + el.slice(1)}</Option>)}
           </Select>
           <Select name="size" onChange={handleFilters}>
             <Option value={"default"} disabled>
               choose size
-            </Option>
-            <Option>XS</Option>
-            <Option>S</Option>
-            <Option>M</Option>
-            <Option>L</Option>
-            <Option>XL</Option>
+            </Option>            
+            <Option>All</Option>
+            {sizes?.map(el=><Option key={el}>{el}</Option>)}
           </Select>
         </Filter>
         <Filter>

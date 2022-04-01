@@ -22,8 +22,13 @@ const cartSlice = createSlice({
         (el, index) => index !== action.payload
       );
     },
+    cartLogout:(state)=>{
+      state.quantity = 0;
+      state.products=[];
+      state.total=0
+    }
   },
 });
 
-export const { addProduct, deleteProduct } = cartSlice.actions;
+export const { addProduct, deleteProduct, cartLogout } = cartSlice.actions;
 export default cartSlice.reducer;

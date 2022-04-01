@@ -11,7 +11,7 @@ const Products = ({ cat, filter, sort }) => {
 
   useEffect(() => {
     getProducts(dispatch, cat);
-  }, [cat]);
+  }, [cat,dispatch]);
 
   useEffect(() => {
 

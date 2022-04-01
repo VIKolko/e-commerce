@@ -36,6 +36,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const PText = styled.p`
+// const PText = styled.p`
     
-`
+// `

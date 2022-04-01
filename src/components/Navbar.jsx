@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import {
   Logout,
   Person,
-  Search,
+  // Search,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
-import { Badge, Button } from "@mui/material";
+import { Badge } from "@mui/material";
 import { mobile } from "../responsive";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ import { logOut } from "../redux/userSlice";
 import { cartLogout } from "../redux/cartSlice";
 
 const Navbar = () => {
-  const [search,setSearch] = useState()
+  // const [search,setSearch] = useState()
 
   const dispatch = useDispatch();
   const quantity = useSelector((state) => state.cart.quantity);
@@ -24,10 +24,10 @@ const Navbar = () => {
     dispatch(cartLogout());
   };
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setSearch(e.target.value)
-  }
+  // const handleChange = (e) => {
+  //   e.preventDefault();
+  //   setSearch(e.target.value)
+  // }
 
 
   // useEffect(()=>{
@@ -110,17 +110,17 @@ const Language = styled.span`
   font-size: 14px;
   cursor: pointer;
 `;
-const SearchContainer = styled.div`
-  border: 1px solid lightgrey;
-  display: flex;
-  align-items: center;
-  margin-left: 25px;
-  padding: 5px;
-`;
-const Input = styled.input`
-  border: none;
-  ${mobile({ width: "50px" })}
-`;
+// const SearchContainer = styled.div`
+//   border: 1px solid lightgrey;
+//   display: flex;
+//   align-items: center;
+//   margin-left: 25px;
+//   padding: 5px;
+// `;
+// const Input = styled.input`
+//   border: none;
+//   ${mobile({ width: "50px" })}
+// `;
 
 const Logo = styled.h1`
   font-weight: bold;
